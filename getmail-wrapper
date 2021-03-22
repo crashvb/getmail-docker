@@ -1,0 +1,12 @@
+#!/bin/bash
+
+rcfiles=""
+for i in $(find $GETMAIL_CONFIG -name "rc-*")
+do
+	rcfiles="$rcfiles --rcfile=$i"
+done
+
+set -e
+
+/usr/bin/getmail --getmaildir=$GETMAIL_CONFIG $rcfiles
+

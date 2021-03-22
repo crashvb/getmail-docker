@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+# Configure: getmail
+if [[ ! -e $EP_RUN ]] ; then
+	log "Configuring $(basename $0) for first run ..."
+
+	install --group=root --mode=0644 --owner=vmail /dev/null /var/log/cron.log
+
+	# getmail
+	if [[ ! -e /etc/cron.d/getmail ]] ; then
+		render_template /usr/local/share/getmail/getmail /etc/cron.d/getmail
+	else
+		log "Skipping: getmail ..."
+	fi
+
+	log "Adapting configuration files ..."
+	# getmailrc
+	for var in ${!GETMAIL_RC@}; do
+		if [[ "X${!var}" != "X" ]] ; then
+			name=${var,,}
+			name="rc-${name#"getmail_rc"}"
+			[[ "X$name" == "Xrc-" ]] && name=getmailrc
+			log "	$name"
+			echo "${!var}" > $GETMAIL_CONFIG/$name
+		fi
+	done
+
+	log "Applying ownership and permissions ..."
+	find $GETMAIL_CONFIG $GETMAIL_VMAIL \( \! -user vmail -o \! -group vmail \) -exec chown vmail:vmail {} \;
+fi
+
