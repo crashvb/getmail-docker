@@ -27,7 +27,7 @@ if [[ ! -e $EP_RUN ]] ; then
 			secrets=$EP_SECRETS_ROOT/${name}_password
 			if [[ -e $secrets ]] ; then
 				log "Importing $var from secrets ..."
-				export $var=$(<$secrets)
+				export $var="$(<$secrets)"
 			fi
 
 			name="rc-$name"
