@@ -1,3 +1,3 @@
 # m h dom mon dow user command
-${GETMAIL_SCHEDULE} vmail /usr/local/bin/getmail-wrapper >>/var/log/cron.log 2>&1
+${GETMAIL_SCHEDULE} vmail exec /bin/bash -c ". /etc/profile; /usr/local/bin/getmail-wrapper >>/var/log/cron.log 2>&1"
 ${CRON_TRUNCATION_SCHEDULE} root >/var/log/cron.log 2>&1
