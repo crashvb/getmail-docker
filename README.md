@@ -44,7 +44,10 @@ The embedded healthcheck script is located at `/etc/healthcheck.d/cron` and perf
 │  │  └─ getmail
 │  └─ healthcheck.d/
 │     └─ cron
-└─ usr/
+├─ run/
+│  └─ secrets/
+│     └─ <rc>_password
+├─ usr/
 │  └─ local/
 │     └─ bin/
 │        └─ getmail-wrapper
