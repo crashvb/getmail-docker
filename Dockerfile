@@ -8,7 +8,7 @@ RUN docker-apt cron getmail
 ENV GETMAIL_CONFIG=/etc/getmail GETMAIL_VGID=5000 GETMAIL_VMAIL=/var/mail GETMAIL_VNAME=vmail GETMAIL_VUID=5000
 ADD getmail-* /usr/local/bin/
 ADD getmail.* /usr/local/share/getmail/
-RUN groupadd -g ${GETMAIL_VGID} ${GETMAIL_VNAME} && \
+RUN groupadd --gid=${GETMAIL_VGID} ${GETMAIL_VNAME} && \
 	useradd --create-home --gid=${GETMAIL_VGID} --home-dir=/home/${GETMAIL_VNAME} --shell=/usr/bin/bash --uid=${GETMAIL_VUID} ${GETMAIL_VNAME} && \
 	ln --symbolic ${GETMAIL_CONFIG} /home/${GETMAIL_VNAME}/.getmail && \
 	rm --force /etc/cron.*/*
