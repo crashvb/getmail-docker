@@ -1,10 +1,10 @@
 #!/bin/bash
 
-set -e
+set -e -o pipefail
 
 # Configure: getmail
-if [[ ! -e $EP_RUN ]] ; then
-	log "Configuring $(basename $0) for first run ..."
+if [[ ! -e "${EP_RUN}" ]] ; then
+	log "Configuring $(basename "${0}") for first run ..."
 
 	install --group=root --mode=0644 --owner=vmail /dev/null /var/log/cron.log
 
@@ -20,23 +20,23 @@ if [[ ! -e $EP_RUN ]] ; then
 	for rc in ${!GETMAIL_RC@}; do
 		[[ "X${!rc}" == "X" ]] && continue
 
-		name=${rc,,}
+		name="${rc,,}"
 		name="${name#"getmail_rc"}"
-		[[ "X$name" == "X" ]] && name=getmailrc
+		[[ "X${name}" == "X" ]] && name=getmailrc
 
-		var=${name^^}_PASSWORD
-		secrets=$EP_SECRETS_ROOT/${name}_password
-		if [[ -e $secrets ]] ; then
-			log "Importing $var from secrets ..."
-			export $var="$(<$secrets)"
+		var="${name^^}_PASSWORD"
+		secrets="${EP_SECRETS_ROOT}/${name}_password"
+		if [[ -e "${secrets}" ]] ; then
+			log "Importing ${var} from secrets ..."
+			export "${var}"="$(<"${secrets}")"
 		fi
 
-		name="rc-$name"
-		log "	$name"
-		echo "${!rc}" | envsubst > $GETMAIL_CONFIG/$name
+		name="rc-${name}"
+		log "	${name}"
+		echo "${!rc}" | envsubst > "${GETMAIL_CONFIG}/${name}"
 	done
 
 	log "Applying ownership and permissions ..."
-	find $GETMAIL_CONFIG $GETMAIL_VMAIL \( \! -user ${GETMAIL_VNAME} -o \! -group ${GETMAIL_VNAME} \) -exec chown ${GETMAIL_VNAME}:${GETMAIL_VNAME} {} \;
+	find "${GETMAIL_CONFIG}" "${GETMAIL_VMAIL}" \( \! -user "${GETMAIL_VNAME}" -o \! -group "${GETMAIL_VNAME}" \) -exec chown "${GETMAIL_VNAME}:${GETMAIL_VNAME}" {} \;
 fi
 

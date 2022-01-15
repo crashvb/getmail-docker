@@ -1,12 +1,11 @@
 #!/bin/bash
 
-rcfiles=""
-for i in $(find $GETMAIL_CONFIG -name "rc-*")
-do
-	rcfiles="$rcfiles --rcfile=$i"
+set -e -o pipefail
+
+rcfiles=()
+for i in "${GETMAIL_CONFIG}/rc-"*; do
+	rcfiles+=("--rcfile=\"${i}\"")
 done
 
-set -e
-
-/usr/bin/getmail --getmaildir=$GETMAIL_CONFIG $rcfiles
+exec /usr/bin/getmail --getmaildir="${GETMAIL_CONFIG}" "${rcfiles[@]}"
 
