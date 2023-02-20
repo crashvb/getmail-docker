@@ -1,10 +1,11 @@
 #!/bin/bash
 
 set -e -o pipefail
+shopt -s nullglob
 
 rcfiles=()
 for i in "${GETMAIL_CONFIG}/rc-"*; do
-	rcfiles+=("--rcfile=\"${i}\"")
+	rcfiles+=(--rcfile="${i}")
 done
 
 exec /usr/bin/getmail --getmaildir="${GETMAIL_CONFIG}" "${rcfiles[@]}"
