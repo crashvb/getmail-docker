@@ -29,14 +29,6 @@ The embedded entrypoint script is located at `/etc/entrypoint.d/getmail` and per
 
 2. Volume permissions are normalized.
 
-## Healthcheck Scripts
-
-### cron
-
-The embedded healthcheck script is located at `/etc/healthcheck.d/cron` and performs the following actions:
-
-1. Verifies that all cron services are operational.
-
 ## Standard Configuration
 
 ### Container Layout
