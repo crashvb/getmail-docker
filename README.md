@@ -39,8 +39,11 @@ The embedded entrypoint script is located at `/etc/entrypoint.d/getmail` and per
 │  ├─ getmail/
 │  ├─ entrypoint.d/
 │  │  └─ getmail
-│  └─ healthcheck.d/
-│     └─ cron
+│  ├─ healthcheck.d/
+│  │  └─ cron
+│  └─ supervisor/
+│     └─ config.d/
+│        └─ cron.conf
 ├─ run/
 │  └─ secrets/
 │     └─ <rc>_password
